@@ -38,7 +38,6 @@ jobs:
         with:
           ref: main
           fetch-depth: 0
-          persist-credentials: false
 
       # See https://github.com/im-open/git-version-lite for more details around how to increment
       # major/minor/patch through commit messages
@@ -50,7 +49,7 @@ jobs:
           
       - name: Create Version and Major Tags
         run: |
-          git config user.name github-actions[bot]
+          git config user.name bradyclifford 
           git config user.email github-actions@github.com
           git tag ${{ steps.version.outputs.NEXT_VERSION }} ${{ github.sha }}
           git push origin ${{ steps.version.outputs.NEXT_VERSION }}
