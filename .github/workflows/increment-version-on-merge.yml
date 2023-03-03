@@ -15,6 +15,12 @@ on:
   #      reviewed, approved by a CODEOWNER and merged
   pull_request_target:
     types: [closed]
+    paths:
+      - 'dist/**'
+      - 'src/**'
+      - 'action.yml'
+      - 'package.json'
+      - 'package-lock.json'
 
 jobs:
   increment-version:
@@ -32,6 +38,7 @@ jobs:
         with:
           ref: main
           fetch-depth: 0
+          persist-credentials: false
 
       # See https://github.com/im-open/git-version-lite for more details around how to increment
       # major/minor/patch through commit messages
@@ -39,21 +46,14 @@ jobs:
         id: version
         uses: ./
         with:
+          create-ref: false
           github-token: ${{ secrets.GITHUB_TOKEN }}
           default-release-type: major
-
-      - name: Commit unstaged changes
-        run: |
-          echo "There are changes to commit" > file.txt
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git add .
-          git push origin HEAD:${{ github.head_ref }}
           
       - name: Create Version and Major Tags
         run: |
-          git config user.name bradyclifford 
-          git config user.email bradyclifford@gmail.com 
+          git config user.name github-actions
+          git config user.email github-actions@github.com
           git tag ${{ steps.version.outputs.NEXT_VERSION }} ${{ github.sha }}
           git push origin ${{ steps.version.outputs.NEXT_VERSION }}
           git tag ${{ steps.version.outputs.NEXT_MAJOR_VERSION }} ${{ github.sha }}
