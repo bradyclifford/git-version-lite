@@ -49,5 +49,5 @@ jobs:
           git config user.email github-actions@github.com
           git tag ${{ steps.version.outputs.NEXT_VERSION }} ${{ github.sha }}
           git push origin ${{ steps.version.outputs.NEXT_VERSION }}
-          git tag ${{ steps.version.outputs.NEXT_MAJOR_VERSION }} ${{ github.sha }}
+          git tag -f ${{ steps.version.outputs.NEXT_MAJOR_VERSION }} ${{ github.sha }}
           git push origin ${{ steps.version.outputs.NEXT_MAJOR_VERSION }} -f
