@@ -1,4 +1,4 @@
-name: 'git-version-lite'
+name: git-version-lite
 
 description: 'An action to calculate the next tag for the repository based on commit messages.'
 
