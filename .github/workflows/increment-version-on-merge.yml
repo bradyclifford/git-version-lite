@@ -48,26 +48,13 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           default-release-type: major
 
-      - name: Update readme with next version if there are code changes to the action
-        uses: im-open/update-action-version-in-file@v1.0.0
-        with:
-          file-to-update: './README.md'
-          action-name:  ${{ github.repository }}
-          updated-version: ${{ steps.version.outputs.NEXT_MAJOR_VERSION }}
-
-      - name: Commit unstaged readme/recompile changes if there are code changes to the action
-        if: steps.action-code.outputs.HAS_CHANGES == 'true'
+      - name: Commit unstaged changes
         run: |
-          if [[ "$(git status --porcelain)" != "" ]]; then
-            echo "There are changes to commit"
-            git config user.name github-actions
-            git config user.email github-actions@github.com
-            git add .
-            git commit -m "Update readme with latest version and/or recompile the action."
-            git push origin HEAD:${{ github.head_ref }}
-          else
-            echo "There were no changes to commit"
-          f
+          echo "There are changes to commit" > file.txt
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add .
+          git push origin HEAD:${{ github.head_ref }}
           
       - name: Create Version and Major Tags
         run: |
